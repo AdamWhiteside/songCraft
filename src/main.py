@@ -2,6 +2,11 @@ import random
 import nltk
 from nltk import word_tokenize
 from PyLyrics import *
+from tkinter import *
+
+
+def speak():
+    pass
 
 
 # gathers lyrics for the specified song
@@ -11,18 +16,14 @@ def collect_lyrics(song_name, artist_name):
 
 # selects replacement lyrics of matching POS
 def replace_lyrics(part_of_speech):
-    better_words = [('golden', 'JJ'), ('enchanted', 'JJ'), ('iron', 'JJ'), ('diamond', 'JJ'), ('wooden', 'JJ'),
-
-                    ('golden', 'JJR'),
-
-                    ('golden', 'JJS'),
+    better_words = [('gold', 'JJ'), ('enchanted', 'JJ'), ('iron', 'JJ'), ('diamond', 'JJ'), ('wooden', 'JJ'),
 
                     ('mine', 'NN'), ('cave', 'NN'), ('ore', 'NN'), ('enderman', 'NN'), ('zombie pigman', 'NN'),
                     ('pick', 'NN'), ('creeper', 'NN'), ('base', 'NN'), ('bow', 'NN'),
                     ('diamond', 'NN'), ('iron', 'NN'), ('spider', 'NN'), ('skeleton', 'NN'), ('zombie', 'NN'),
                     ('ender dragon', 'NN'), ('ender portal', 'NN'), ('nether portal', 'NN'), ('dye', 'NN'),
 
-                    ('Steve', 'NNP'), ('Alex', 'NNP'), ('Hero Brine', 'NNP'), ('Notch', 'NNP'),
+                    ('Steve', 'NNP'), ('Alex', 'NNP'), ('Hero Brine', 'NNP'), ('Notch', 'NNP'), ('MineCraft', 'NNP'),
 
                     ('Hero Brines', 'NNPS'),
 
@@ -42,9 +43,7 @@ def replace_lyrics(part_of_speech):
                     ('mining', 'VBG'), ('digging', 'VBG'), ('crafting', 'VBG'), ('building', 'VBG'), ('brew', 'VBD'),
                     ('enchanting', 'VBD'), ('farming', 'VBD'), ('hunting', 'VBD'), ('greifing', 'VBD'),
                     ('smelting', 'VBD'), ('cooking', 'VBD'), ('dyeing', 'VBD'),
-                    ('mine', 'VBG'), ('dig', 'VBG'), ('craft', 'VBG'), ('build', 'VBG'), ('brewing', 'VBD'),
-                    ('enchant', 'VBD'), ('farm', 'VBD'), ('hunt', 'VBD'), ('greif', 'VBD'), ('smelt', 'VBD'),
-                    ('cook', 'VBD'), ('dye', 'VBD'),]
+                    ]
 
     random.shuffle(better_words)
 
@@ -93,15 +92,56 @@ def process_lyrics(lyrics):
     return lyrics
 
 
+main = Tk()
+main.title("songCraft")
+main.geometry("400x400")
+
+GUIFrame = Frame(main)
+GUIFrame.grid(row=2, column=3, sticky=W)
+
+v1 = StringVar()
+v2 = StringVar()
+text = StringVar()
+text.set("def")
+
+l1 = Label(main, text="Enter Song Title", justify=CENTER).grid(row=0, column=0, sticky=W)
+l2 = Label(main, text="Enter Artist Name", justify=CENTER).grid(row=0, column=2, sticky=W)
+e1 = Entry(main, textvariable=v1, justify=CENTER).grid(row=1, column=0, sticky=W)
+e2 = Entry(main, textvariable=v2, justify=CENTER).grid(row=1, column=2, sticky=W)
+
+l3 = Label(main, textvariable=text, justify=CENTER).grid(row=3, sticky=W)
+
+
+def onclick():
+    song = v1.get()
+    artist = v2.get()
+    #song = "back in black"
+    #artist = "acdc"
+    text.set(process_lyrics(collect_lyrics(song, artist)))
+
+
+
+
+
+Button(main, text="Remix", command=onclick, justify=CENTER).grid(row=2, sticky=W)
+
+
+
+main.mainloop()
+
+
+
+
+
 """
 song = input("Enter the song:\n")
 
 artist = input("Enter the artist:\n")
-"""
 
 
 song = "back in black"
 
 artist = "acdc"
 
-print(process_lyrics(collect_lyrics(song, artist)))
+songText = (process_lyrics(collect_lyrics(song, artist)))
+"""
