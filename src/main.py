@@ -23,9 +23,9 @@ def replace_lyrics(part_of_speech):
                     ('diamond', 'NN'), ('iron', 'NN'), ('spider', 'NN'), ('skeleton', 'NN'), ('zombie', 'NN'),
                     ('ender dragon', 'NN'), ('ender portal', 'NN'), ('nether portal', 'NN'), ('dye', 'NN'),
 
-                    ('Steve', 'NNP'), ('Alex', 'NNP'), ('Hero Brine', 'NNP'), ('Notch', 'NNP'), ('MineCraft', 'NNP'),
+                    ('Steve', 'NNP'), ('Alex', 'NNP'), ('Hero Brine', 'NNP'), ('Notch', 'NNP'), ('Minecraft', 'NNP'),
 
-                    ('Hero Brines', 'NNPS'),
+                    #('Hero Brines', 'NNPS'),
 
                     ('mines', 'NNS'), ('caves', 'NNS'), ('mobs', 'NNS'), ('ore', 'NNS'), ('endermen', 'NNS'),
                     ('zombie pigmen', 'NNS'), ('mines', 'NNS'), ('caves', 'NNS'), ('creepers', 'NNS'),
@@ -66,13 +66,13 @@ def process_lyrics(lyrics):
     for i in range(len(fq)):
         temp1 = fq[i][0][1]
         if temp1 == "JJ" or temp1 == "NNP" or temp1 == "NN" or temp1 == "NNS" or temp1 == "VBG":
-            if len(dictionary) < 4:
+            if len(dictionary) < 4 and len(fq[i][0][0]) > 2:
                 dictionary[fq[i][0]] = replace_lyrics(fq[i][0])
 
     for i in range(len(lyrics)):
         if type(lyrics[i]) == tuple:
             check = random.getrandbits(3)
-            if check > 4:
+            if check > 4 and len(lyrics[i][0]) > 2:
                 temp = lyrics[i]
                 if temp not in dictionary.keys():
                     dictionary[temp] = replace_lyrics(lyrics[i])
@@ -94,22 +94,21 @@ def process_lyrics(lyrics):
 
 main = Tk()
 main.title("songCraft")
-main.geometry("400x400")
 
-GUIFrame = Frame(main)
-GUIFrame.grid(row=2, column=3, sticky=W)
+#main.geometry("400x400")
+#GUIFrame = Frame(main)
+
 
 v1 = StringVar()
 v2 = StringVar()
 text = StringVar()
-text.set("def")
+text.set(" ")
 
-l1 = Label(main, text="Enter Song Title", justify=CENTER).grid(row=0, column=0, sticky=W)
-l2 = Label(main, text="Enter Artist Name", justify=CENTER).grid(row=0, column=2, sticky=W)
-e1 = Entry(main, textvariable=v1, justify=CENTER).grid(row=1, column=0, sticky=W)
-e2 = Entry(main, textvariable=v2, justify=CENTER).grid(row=1, column=2, sticky=W)
-
-l3 = Label(main, textvariable=text, justify=CENTER).grid(row=3, sticky=W)
+l1 = Label(main, text="Enter Song Title", justify=CENTER)
+l2 = Label(main, text="Enter Artist Name", justify=CENTER)
+e1 = Entry(main, textvariable=v1, justify=CENTER)
+e2 = Entry(main, textvariable=v2, justify=CENTER)
+l3 = Label(main, textvariable=text, justify=CENTER, wraplength=300)
 
 
 def onclick():
@@ -120,17 +119,19 @@ def onclick():
     text.set(process_lyrics(collect_lyrics(song, artist)))
 
 
+b1 = Button(main, text="Remix", command=onclick, justify=CENTER)
 
 
-
-Button(main, text="Remix", command=onclick, justify=CENTER).grid(row=2, sticky=W)
+r1 = l1.pack(padx=5, pady=5, side=TOP)
+r2 = e1.pack(padx=5, pady=5, side=TOP)
+r1 = l2.pack(padx=5, pady=5, side=TOP)
+r2 = e2.pack(padx=5, pady=5, side=TOP)
+r4 = l3.pack(padx=5, pady=5, side=BOTTOM)
+r3 = b1.pack(padx=5, pady=5, side=BOTTOM)
 
 
 
 main.mainloop()
-
-
-
 
 
 """
